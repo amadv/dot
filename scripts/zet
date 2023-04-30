@@ -776,6 +776,10 @@ x.usage() {
   printf "usage: %s (%s)\n" "$EXE" "${cmds[*]}"
 }
 
+x.cmds() {
+  printf "Vital commands: create edit text\n"
+}
+
 # --------------------------- help command ---------------------------
 
 HELP[help]='
