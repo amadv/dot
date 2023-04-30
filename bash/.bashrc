@@ -253,7 +253,7 @@ alias coin="clip '(yes|no)'"
 #alias neo="neo -D -c gold"
 #alias more="less"
 #alias kn="keg"
-alias gpati='GITHUB_PAT=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 npm install'
+alias gpati='GITHUB_PAT=<key> npm install'
 alias zet=$SCRIPTS/zet
 alias npm_update='npx npm-check-updates -u'
 
