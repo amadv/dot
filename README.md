@@ -1,2 +1,2 @@
 # dot
-Relevant files for having a comfy home in a container world.
+Relevant files for having a comfy home in a containerized world.
