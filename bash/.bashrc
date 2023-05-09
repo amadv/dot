@@ -199,7 +199,9 @@ __ps1() {
 }
 
 # PROMPT_COMMAND="__ps1"
-PROMPT_COMMAND="__ps1; history -a; history -c; history -r"
+#PROMPT_COMMAND="__ps1; history -a; history -c; history -r"
+# After each command, save and reload history
+export PROMPT_COMMAND="__ps1; history -a; history -c; history -r; $PROMPT_COMMAND"
 
 
 
