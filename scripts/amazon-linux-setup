@@ -1,0 +1,18 @@
+ #!/bin/bash
+yum update
+yum -y install git
+yum -y install tmux
+yum -y install docker
+service docker start
+usermod -a -G docker ec2-user
+chkconfig docker on
+# pip3 install docker-compose
+sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+sudo ln -s /usr/local/bin/docker-compose ~/.local/bin/docker-compose
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+. ~/.nvm/nvm.sh
+# nvm install --lts #does not work on current AL2
+nvm install 17
+reboot
+
