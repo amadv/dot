@@ -1,2 +1,3 @@
 #!/bin/sh
-script -c tmux /dev/null
+script -c "tmux -u" /dev/null
+#script -c tmux /dev/null
