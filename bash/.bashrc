@@ -84,9 +84,9 @@ export ANSIBLE_LOAD_CALLBACK_PLUGINS=1
 
 
 # ------------------------------ history -----------------------------
-set -o history
+# set -o history
 # Avoid duplicates
-export HISTCONTROL=ignoredups:erasedups # Ubuntu default is ignoreboth
+# export HISTCONTROL=ignoredups:erasedups # Ubuntu default is ignoreboth
 export HISTSIZE=5000
 export HISTFILESIZE=10000
 
@@ -235,6 +235,7 @@ alias ip='ip -c'
 alias '?'=duck
 alias '??'=$SCRIPTS/google
 alias '???'=bing
+alias tt=$SCRIPTS/termux-tmux
 alias dot='cd $DOTFILES'
 alias scripts='cd $SCRIPTS'
 alias snippets='cd $SNIPPETS'
@@ -322,7 +323,7 @@ export LYNX_LSS=$HOME/.config/lynx/lynx.lss
 # ----------------------------- golang -------------------------------
 export GOROOT=/usr/local/go
 export GOPATH=$HOME/go
-export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+export PATH=$GOPATH/bin:$GOROOT/bin:$PATH:/usr/bin/tmux:/usr/bin/screen
 
 
 # ----------------------------- node ---------------------------------
