@@ -3,7 +3,7 @@
     email = aaron@bcw.group
 [core]
 	excludesfile = ~/.gitignore
-	editor = nvim
+	editor = vim
 	ignorecase = false
 [push]
   default = simple
@@ -47,12 +47,12 @@
 [github]
 	user = aaron-bcw
 [diff]
-  tool = nvimdiff
-[difftool "nvimdiff"]
-	cmd = nvim -d \"$LOCAL\" \"$REMOTE\"
+  tool = vimdiff
+[difftool "vimdiff"]
+	cmd = vim -d \"$LOCAL\" \"$REMOTE\"
 	path = 
-[mergetool "nvimdiff"]
-	cmd = nvim -d \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+[mergetool "vimdiff"]
+	cmd = vim -d \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
 [filter "lfs"]
 	clean = git-lfs clean -- %f
