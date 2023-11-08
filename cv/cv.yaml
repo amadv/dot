@@ -1,0 +1,163 @@
+basics:
+  email: aaronmadved@gmail.com
+  location:
+    city: Kent
+    countryCode: Ohio
+  name: Aaron Madved
+  phone: +1 330-597-0610
+  profiles:
+  - network: Github
+    url: https://github.com/madgrid
+    username: madgrid
+  - network: Linkedin
+    url: https://www.linkedin.com/in/aaron-madved
+    username: aaron-madved
+education:
+- area: Bachelors of Applied Science, Application Development
+  institution: Kent State University
+  startDate: '2011'
+  endDate: '2016' 
+- area: Masters of Digital Science 
+  institution: Kent State University
+  startDate: '2018'
+  endDate: '2019' 
+meta:
+  breaks_before:
+    education: true
+projects:
+- description: Hedera RPC Provider
+  keywords:
+  - Nodejs
+  - React
+  - Postgres
+  - Redis
+  - GCP
+  - Github Actions
+  - Skaffold
+  - Argo CD
+  - Kubernetes
+  name: Arkhia
+  url: https://www.arkhia.io/
+- description: Crypto Bridge
+  keywords:
+  - Golang
+  - React
+  - ProtoBuffs
+  - AWS
+  name: Hashport
+  url: https://www.hashport.network/
+- description: Learning Platform
+  keywords:
+  - Python
+  - Django
+  - Azure
+  - Terraform
+  name: Sail Platform
+  url: https://sailplatform.org/
+skills:
+- keywords:
+  - Javascript
+  - Typescript
+  - Python
+  - Golang
+  - Bash
+  - POSIX
+  - PHP
+  name: Languages
+- keywords:
+  - Angular 
+  - React
+  - Vue
+  - MUI
+  - Flex
+  - Tailwind CSS 
+  - Express
+  - Flask
+  - Django
+  - Fiber
+  name: Frameworks/libraries
+- keywords:
+  - Postgres
+  - MySQL
+  - MongoDB
+  - Redis
+  name: Databases
+- keywords:
+  - AWS
+  - GCP
+  - Azure
+  - Docker
+  - Kubernetes
+  - Helm
+  - Skaffold
+  - Argo CD
+  - Jenkins
+  - Github Actions
+  - Terraform
+  - Vagrant
+  - Grafana
+  - Prometheus
+  - Datadog
+  - Ansible
+  name: Devops
+- keywords:
+  - Vim
+  - VScode
+  - Makefile
+  - Unix Utilities
+  name: Tools
+- keywords:
+  - Linux
+  - FreeBSD
+  - OpenBSD
+  name: OS
+work:
+- highlights:
+  - Project Manager for staking platform for POS blockchains
+  - Backend Engineer for a crypto validator swarm
+  - Infra/SRE lead for node as a service
+  - Fullstack found member for Hedera RPC service
+  name: BCW
+  position: Tech Lead / Full Stack / DevOps
+  startDate: '2021'
+  endDate: '2023'
+- highlights:
+  - Developed Frontend component libraries
+  - Architected micro frontend architectures
+  - Maintained build pipelines and deployments
+  - CI/CD support line for clients
+  name: GCI
+  position: Consultant
+  startDate: '2020'
+  endDate: '2021'
+- highlights:
+  - Worked alongside Prof. Madj
+  - Developed Cloud Computing course material
+  - Administrated over a dozen TAs
+  - Maintained Azure CI/CD deployments
+  - Created and maintained the Gitops for Terraform
+  - Enhanced CMU Learning Management Systems
+  - Created proxy server to expose course material to MIT
+  - Worked alongside with Microsoft and Azure Team.
+  name: Carnegie Mellon University
+  position: Project Manager / Full Stack / DevOps
+  startDate: '2019'
+  endDate: '2020'
+- highlights:
+  - Containerized the entire tech stack
+  - Rewrote backend from PHP to Express
+  - Rewrote Frontend from Laravel to Angular
+  name: Li-x GmBh
+  position: Full Stack
+  startDate: '2018'
+  endDate: '2019'
+- highlights:
+  - Frontend engineer for crypto exchange szzc
+  - Fullstack engineer for crypto exchange RightBTC
+  - Wrote blockchain dapps for metaverse blockchain
+  - Created the metaverse chain explorer and lightwallet SPV
+  name: Viewfin
+  position: Full Stack
+  startDate: '2017'
+  endDate: '2018'
+

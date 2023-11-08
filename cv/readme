@@ -1,0 +1,14 @@
+# Description
+
+Using resumy python tool
+[resumy github](https://github.com/shaoner/resumy)
+
+## System Requirements
+* python
+* pip
+* pip-venv
+* bonus pipx
+
+## Quick CMDS
+* `resumy build -o destination.pdf cv.yaml`
+
