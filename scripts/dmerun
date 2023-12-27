@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# # dmenu_path | ~/Repos/madgrid/dot/scripts/dme "$@" | ${SHELL:-"/bin/sh"} &
+# dmenu_path | ./dme "$@" | ${SHELL:-"/bin/sh"} &
+#
+exe=`dmenu_path | dmenu -l 10 -fn "Go Mono:size=8" -nb "#efffef" -nf "#000000" -sb "#8888cc" -sf "#ffffff"` && eval "exec $exe"
