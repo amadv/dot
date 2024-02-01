@@ -72,6 +72,7 @@ export ANSIBLE_LOAD_CALLBACK_PLUGINS=1
 [[ -d /.vim/spell ]] && export VIMSPELL=("$HOME/.vim/spell/*.add")
 
 export acmeshell="bash"
+export KIND_EXPERIMENTAL_PROVIDER=podman
 
 # ------------------------------ history -----------------------------
 export HISTSIZE=5000
@@ -117,6 +118,7 @@ alias coin="clip '(yes|no)'"
 alias gpati='GITHUB_PAT=<key> npm install'
 alias zet=$SCRIPTS/zet
 alias npm_update='npx npm-check-updates -u'
+alias vim='vi'
 
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
@@ -150,10 +152,11 @@ if [[ $(uname -r) =~ android ]]; then
     export PATH=$GOPATH/bin:$GOROOT/bin:$PATH:$common_path
     export PATH=$PATH:/data/data/com.termux/files/usr/bin/go
 else
-    export GOROOT=/usr/local/go
+    # export GOROOT=/usr/local/go
     export GOPATH=$HOME/go
     common_path="/usr/bin/tmux:/usr/bin/screen"
-    export PATH=$GOPATH/bin:$GOROOT/bin:$PATH:$common_path
+    # export PATH=$GOPATH/bin:$GOROOT/bin:$PATH:$common_path
+    export PATH=$GOPATH/bin:$PATH:$common_path
 fi
 
 # ----------------------------- plan9 --------------------------------
@@ -164,3 +167,9 @@ export PATH=$PATH:$PLAN9/bin
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/var/home/aron/Repos/aaron-bcw/google-cloud-sdk/path.bash.inc' ]; then . '/var/home/aron/Repos/aaron-bcw/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/var/home/aron/Repos/aaron-bcw/google-cloud-sdk/completion.bash.inc' ]; then . '/var/home/aron/Repos/aaron-bcw/google-cloud-sdk/completion.bash.inc'; fi
