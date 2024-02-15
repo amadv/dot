@@ -118,7 +118,7 @@ alias coin="clip '(yes|no)'"
 alias gpati='GITHUB_PAT=<key> npm install'
 alias zet=$SCRIPTS/zet
 alias npm_update='npx npm-check-updates -u'
-alias vim='vi'
+alias vim='vim'
 
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
