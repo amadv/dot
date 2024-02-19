@@ -28,3 +28,12 @@ for file in "${files[@]}"; do
     echo "Created symlink: $destination_file"
 done
 
+# Create ~/.fonts directory and copy *.ttf files
+mkdir -p "$home_path/.fonts"
+cp "$dotfiles_path/fonts"/*.ttf "$home_path/.fonts/"
+
+# Run fc-cache
+fc-cache -fv
+
+echo "Setup completed!"
+
