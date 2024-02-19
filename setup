@@ -1,14 +1,30 @@
-#!/bin/sh
-set -e
+#!/bin/bash
 
-ln -sf "$PWD/.bashrc" "$HOME/.bashrc"
-ln -sf "$PWD/.dircolors" "$HOME/.dircolors"
-ln -sf "$PWD/.inputrc" "$HOME/.inputrc"
-ln -sf "$PWD/.profile" "$HOME/.profile"
-ln -sf "$PWD/.profile" "$HOME/.bash_profile"
-ln -sf "$PWD/scripts" "$HOME/Scripts"
+dotfiles_path="/home/x4192/Repos/madgrid/dot"
+home_path="/home/x4192"
 
-for i in vim lynx gh git tmux docker podman iam; do
-  cd $i && ./setup
-  cd -
+# List of dot files and their corresponding destination paths
+files=(
+    "screen/.screenrc"
+    "tmux/.tmux.conf"
+    "vim/.vimrc"
+    "lynx/lynx.lss"
+    "lynx/lynx.cfg"
+    "bash/.bashrc"
+)
+
+# Create symbolic links
+for file in "${files[@]}"; do
+    source_file="$dotfiles_path/$file"
+    destination_file="$home_path/${file##*/}"  # Get the filename without the preceding directory path
+    
+    if [[ $file == *"lynx"* ]]; then
+        # For lynx, create the .config/lynx folder if it doesn't exist
+        mkdir -p "$home_path/.config/lynx"
+        destination_file="$home_path/.config/${file##*/}"
+    fi
+
+    ln -s "$source_file" "$destination_file"
+    echo "Created symlink: $destination_file"
 done
+
