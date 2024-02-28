@@ -152,11 +152,11 @@ if [[ $(uname -r) =~ android ]]; then
     export PATH=$GOPATH/bin:$GOROOT/bin:$PATH:$common_path
     export PATH=$PATH:/data/data/com.termux/files/usr/bin/go
 else
-    # export GOROOT=/usr/local/go
+    export GOROOT=/usr/local/go # Comment out if go is dnf/apt installed
     export GOPATH=$HOME/go
     common_path="/usr/bin/tmux:/usr/bin/screen"
-    # export PATH=$GOPATH/bin:$GOROOT/bin:$PATH:$common_path
-    export PATH=$GOPATH/bin:$PATH:$common_path
+    export PATH=$GOPATH/bin:$GOROOT/bin:$PATH:$common_path # Comment out if go is dnf/apt installed
+    # export PATH=$GOPATH/bin:$PATH:$common_path # Uncomment if GOROOT does not exist
 fi
 
 # ----------------------------- plan9 --------------------------------
