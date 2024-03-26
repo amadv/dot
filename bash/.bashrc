@@ -174,3 +174,6 @@ if [ -f '/var/home/aron/Repos/aaron-bcw/google-cloud-sdk/path.bash.inc' ]; then 
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/var/home/aron/Repos/aaron-bcw/google-cloud-sdk/completion.bash.inc' ]; then . '/var/home/aron/Repos/aaron-bcw/google-cloud-sdk/completion.bash.inc'; fi
+
+export PATH=$PATH:/home/x4192/.local/bin
+

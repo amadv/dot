@@ -1,10 +1,10 @@
 [user]
-	name = madgrid
+  name = iviixii
   email = aaronmadved@gmail.com
 [core]
-	excludesfile = ~/.gitignore
-	editor = vim
-	ignorecase = false
+  excludesfile = ~/.gitignore
+  editor = vim
+  ignorecase = false
 [push]
   default = simple
 [color]
