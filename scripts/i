@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Get the current week number
+current_week=$(date +%V)
+
+# Define the directory where the files will be stored
+directory="/path/to/weekly/files"
+
+# Check if a file for the current week exists
+if [ -f "$directory/week$current_week.md" ]; then
+    # File for the current week exists, append text to the bottom
+    echo "Your text" >> "$directory/week$current_week.md"
+else
+    # File for the current week does not exist, create a new file with header
+    echo "# Week $current_week" > "$directory/week$current_week.md"
+    echo "" >> "$directory/week$current_week.md"  # Add a new line after the header
+    echo "Your text" >> "$directory/week$current_week.md"
+fi
+
