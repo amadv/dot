@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dotfiles_path="/home/x4192/Repos/madgrid/dot"
+dotfiles_path="/home/x4192/Repos/iviixii/dot"
 home_path="/home/x4192"
 
 # List of dot files and their corresponding destination paths
