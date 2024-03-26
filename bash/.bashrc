@@ -23,7 +23,7 @@ _source_if() { [[ -r "$1" ]] && source "$1"; }
 #                           (also see envx)
 
 export USER="${USER:-$(whoami)}"
-export GITUSER="madgrid"
+export GITUSER="iviixii"
 export GITWORKUSER="aaron-bcw"
 export REPOS="$HOME/Repos"
 export GHREPOS="$REPOS/$GITUSER"
