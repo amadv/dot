@@ -6,7 +6,7 @@ shopt -s extglob
 (( BASH_VERSINFO[0] < 4 )) && echo "Bash 4+ required." && exit 1
 
 : "${PAGER:=more}"
-: "${EDITOR:=vi}"
+: "${EDITOR:=vim}"
 : "${HELP_BROWSER:=}"
 : "${EXE:="${0##*/}"}"
 : "${GITUSER:="$USER"}"
@@ -949,7 +949,7 @@ x.config() {
 }
 
 _config_edit() {
-  : "${CONF[editor]:="${EDITOR:=vi}"}"
+  : "${CONF[editor]:="${EDITOR:=vim}"}"
   exec "${CONF[editor]}" "$(_config_path "${1:-values}")"
 }
 
