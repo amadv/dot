@@ -23,7 +23,7 @@ _source_if() { [[ -r "$1" ]] && source "$1"; }
 #                           (also see envx)
 
 export USER="${USER:-$(whoami)}"
-export GITUSER="iviixii"
+export GITUSER="amadv"
 export GITWORKUSER="aaron-bcw"
 export REPOS="$HOME/Repos"
 export GHREPOS="$REPOS/$GITUSER"
@@ -45,9 +45,9 @@ export CLIP_VOLUME=0
 export CLIP_SCREEN=0
 export TERM=xterm-256color
 export HRULEWIDTH=73
-export EDITOR=vi
-export VISUAL=vi
-export EDITOR_PREFIX=vi
+export EDITOR=vim
+export VISUAL=vim
+export EDITOR_PREFIX=vim
 export GOPRIVATE="github.com/$GITUSER/*,github.com/$GITWORKUSER/*"
 export GOPATH="$HOME/.local/share/go"
 export GOBIN="$HOME/.local/bin"
@@ -80,7 +80,8 @@ export HISTFILESIZE=10000
 shopt -s histappend  # In Ubuntu this is already set by default
 
 # ------------------------------ prompt ---------------------------
-export PS1=" λ  "
+# export PS1=" λ  "
+export PS1=", "
 export PS2="\011" # Tab
 
 # enable color support of ls and also add handy aliases
@@ -177,5 +178,7 @@ if [ -f '/var/home/aron/Repos/aaron-bcw/google-cloud-sdk/path.bash.inc' ]; then 
 # The next line enables shell command completion for gcloud.
 if [ -f '/var/home/aron/Repos/aaron-bcw/google-cloud-sdk/completion.bash.inc' ]; then . '/var/home/aron/Repos/aaron-bcw/google-cloud-sdk/completion.bash.inc'; fi
 
-export PATH=$PATH:/home/x4192/.local/bin
+export PATH=$PATH:/home/aron/.local/bin
 
+. "/home/aron/.deno/env"
+. "$HOME/.cargo/env"
