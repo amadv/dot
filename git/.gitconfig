@@ -45,7 +45,7 @@
 [hub]
   protocol = https
 [github]
-	user = aaron-bcw
+	user = amadv
 [diff]
   tool = vimdiff
 [difftool "vimdiff"]

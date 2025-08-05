@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dotfiles_path="/home/me/Repos/amadv/dot"
+dotfiles_path="/home/me/Repos/github.com/amadv/dot"
 home_path="/home/me"
 
 # List of dot files and their corresponding destination paths
