@@ -1,184 +1,255 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
+#!/bin/bash
+# shellcheck disable=SC1090,SC1091
 
-# If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-      *) return;;
+*i*) ;; # interactive
+*) return ;;
 esac
 
-# ------------------------- distro detection -------------------------
-
-export DISTRO
-[[ $(uname -r) =~ Microsoft ]] && DISTRO=WSL2 #distinguish WSL1
-[[ $(uname -r) =~ android ]] && DISTRO=ANDROID #distinguish Termux
+export black="[30m"
+export red="[31m"
+export green="[32m"
+export yellow="[33m"
+export blue="[34m"
+export magenta="[35m"
+export cyan="[36m"
+export white="[37m"
+export blink="[5m"
+export reset="[0m"
+export clear="[2J"
+export curoff="[?25h"
+export curon="[?25h"
+export top="[H"
 
 # ---------------------- local utility functions ---------------------
 
-_have()      { type "$1" &>/dev/null; }
+_have() { type "$1" &>/dev/null; }
 _source_if() { [[ -r "$1" ]] && source "$1"; }
 
 # ----------------------- environment variables ----------------------
-#                           (also see envx)
 
-export USER="${USER:-$(whoami)}"
-export GITUSER="amadv"
-export GITWORKUSER="aaron-bcw"
-export REPOS="$HOME/Repos"
-export GHREPOS="$REPOS/$GITUSER"
-export GHWORKREPOS="$REPOS/$GITWORKUSER"
-export DOTFILES="$GHREPOS/dot"
-export SCRIPTS="$DOTFILES/scripts"
-export SNIPPETS="$DOTFILES/snippets"
-export HELP_BROWSER=lynx
-export DESKTOP="$HOME/Desktop"
-export DOCUMENTS="$HOME/Documents"
-export DOWNLOADS="$HOME/Downloads"
-export PUBLIC="$HOME/Public"
-export PRIVATE="$HOME/Private"
-export PICTURES="$HOME/Pictures"
-export MUSIC="$HOME/Music"
-export VIDEOS="$HOME/Videos"
-export ZETDIR="$GHREPOS/zet"
-export CLIP_VOLUME=0
-export CLIP_SCREEN=0
-export TERM=xterm-256color
+export LANG=en_US.UTF-8
 export HRULEWIDTH=73
-export EDITOR=vim
-export VISUAL=vim
-export EDITOR_PREFIX=vim
-export GOPRIVATE="github.com/$GITUSER/*,github.com/$GITWORKUSER/*"
-export GOPATH="$HOME/.local/share/go"
-export GOBIN="$HOME/.local/bin"
-export GOPROXY=direct
-export CGO_ENABLED=0
+export TZ=America/New_York
+export TERMINAL_BROWSER=lynx # w3m
+export TERM=xterm-256color
+export PYTHONDONTWRITEBYTECODE=2
 export LC_COLLATE=C
 export CFLAGS="-Wall -Wextra -Werror -O0 -g -fsanitize=address -fno-omit-frame-pointer -finstrument-functions"
+export BAT_THEME=gruvbox-dark
 
+# explicit to fix wierd defaults (like macOS)
+export XDG_STATE_HOME="$HOME/.local/state"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+
+# gruvbox-material
+export LS_COLORS="di=38;5;245:fi=38;5;223:ln=38;5;179:ex=38;5;108:*.txt=38;5;223"
 export LESS="-FXR"
-export LESS_TERMCAP_mb="[35m" # magenta
-export LESS_TERMCAP_md="[33m" # yellow
-export LESS_TERMCAP_me="" # "0m"
-export LESS_TERMCAP_se="" # "0m"
-export LESS_TERMCAP_so="[34m" # blue
-export LESS_TERMCAP_ue="" # "0m"
-export LESS_TERMCAP_us="[4m"  # underline
-
-export ANSIBLE_CONFIG="$HOME/.config/ansible/config.ini"
-export ANSIBLE_INVENTORY="$HOME/.config/ansible/inventory.yaml"
-export ANSIBLE_LOAD_CALLBACK_PLUGINS=1
+export LESS_TERMCAP_md=$'\e[1;33m'       # start bold (yellow)
+export LESS_TERMCAP_mb=$'\e[1;35m'       # start blinking (magenta)
+export LESS_TERMCAP_me=$'\e[0m'          # end bold/blinking
+export LESS_TERMCAP_so=$'\e[38;5;108;1m' # start standout (green bold)
+export LESS_TERMCAP_se=$'\e[0m'          # end standout
+export LESS_TERMCAP_us=$'\e[4m'          # start underline
+export LESS_TERMCAP_ue=$'\e[0m'          # end underline
 
 [[ -d /.vim/spell ]] && export VIMSPELL=("$HOME/.vim/spell/*.add")
 
-export acmeshell="bash"
-export KIND_EXPERIMENTAL_PROVIDER=podman
+# ----------------------------- go stuff  ----------------------------
 
-# ------------------------------ history -----------------------------
-export HISTSIZE=5000
-export HISTFILESIZE=10000
-shopt -s histappend  # In Ubuntu this is already set by default
+case "$(uname -m)" in
+x86_64) GOARCH="amd64" ;;
+aarch64) GOARCH="arm64" ;;
+*)
+	echo "Unsupported architecture"
+	exit 1
+	;;
+esac && export GOARCH
+export GOBIN="$HOME/.local/bin"
+export GOPATH="$XDG_DATA_HOME/go"
+export GOPROXY=direct
+export CGO_ENABLED=0
 
-# ------------------------------ prompt ---------------------------
-# export PS1=" λ  "
-export PS1=", "
-export PS2="\011" # Tab
+# -------------------------------- gpg -------------------------------
 
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+GPG_TTY=$(tty)
+export GPG_TTY
+
+# ------------------------------- pager ------------------------------
+
+if [[ -x /usr/bin/lesspipe ]]; then
+	export LESSOPEN="| /usr/bin/lesspipe %s"
+	export LESSCLOSE="/usr/bin/lesspipe %s %s"
 fi
 
+# ----------------------------- dircolors ----------------------------
+
+if _have dircolors; then
+	if [[ -r "$HOME/.dircolors" ]]; then
+		eval "$(dircolors -b "$HOME/.dircolors")"
+	else
+		eval "$(dircolors -b)"
+	fi
+fi
+
+# ------------------------------- path -------------------------------
+
+pathappend() {
+	declare arg
+	for arg in "$@"; do
+		test -d "$arg" || continue
+		PATH=${PATH//":$arg:"/:}
+		PATH=${PATH/#"$arg:"/}
+		PATH=${PATH/%":$arg"/}
+		export PATH="${PATH:+"$PATH:"}$arg"
+	done
+} && export -f pathappend
+
+pathprepend() {
+	for arg in "$@"; do
+		test -d "$arg" || continue
+		PATH=${PATH//:"$arg:"/:}
+		PATH=${PATH/#"$arg:"/}
+		PATH=${PATH/%":$arg"/}
+		export PATH="$arg${PATH:+":${PATH}"}"
+	done
+} && export -f pathprepend
+
+# remember last arg will be first in path
+pathprepend \
+	"$HOME/.local/bin" \
+	"$HOME/.local/go/bin" \
+	/usr/local/go/bin \
+	/usr/local/opt/openjdk/bin \
+	/usr/local/bin \
+	/opt/homebrew/bin \
+	"$SCRIPTS"
+
+pathappend \
+	/usr/local/opt/coreutils/libexec/gnubin \
+	'/mnt/c/Windows' \
+	'/mnt/c/Program Files (x86)/VMware/VMware Workstation' \
+	/mingw64/bin \
+	/usr/local/bin \
+	/usr/local/sbin \
+	/usr/local/games \
+	/usr/games \
+	/usr/sbin \
+	/usr/bin \
+	/snap/bin \
+	/sbin \
+	/bin
+
+# ------------------------ bash shell options ------------------------
+
+# shopt is for BASHOPTS, set is for SHELLOPTS
+
+shopt -s checkwinsize # enables $COLUMNS and $ROWS
+shopt -s expand_aliases
+shopt -s globstar
+shopt -s dotglob
+shopt -s extglob
+
+# -------------------------- stty annoyances -------------------------
+
+stty -ixon # disable control-s/control-q tty flow control
+
+# ------------------------------ history -----------------------------
+
+export HISTCONTROL=ignoreboth
+export HISTSIZE=5000
+export HISTFILESIZE=10000
+
+set -o vi
+shopt -s histappend
+
+# --------------------------- smart prompt ---------------------------
+#                 (keeping in bashrc for portability)
+
+PROMPT_LONG=20
+PROMPT_MAX=95
+PROMPT_AT=@
+
+__ps1() {
+	local P='$' dir="${PWD##*/}" B countme short long double \
+		r='\[\e[31m\]' h='\[\e[34m\]' \
+		u='\[\e[33m\]' p='\[\e[34m\]' w='\[\e[35m\]' \
+		b='\[\e[36m\]' x='\[\e[0m\]' \
+		g="\[\033[38;2;90;82;76m\]"
+
+	[[ $EUID == 0 ]] && P='#' && u=$r && p=$u # root
+	[[ $PWD = / ]] && dir=/
+	[[ $PWD = "$HOME" ]] && dir='~'
+
+	B=$(git branch --show-current 2>/dev/null)
+	[[ $dir = "$B" ]] && B=.
+	countme="$USER$PROMPT_AT$(hostname):$dir($B)\$ "
+
+	[[ $B == master || $B == main ]] && b="$r"
+	[[ -n "$B" ]] && B="$g($b$B$g)"
+
+	short="$u\u$g$PROMPT_AT$h\h$g:$w$dir$B$p$P$x "
+	long="${g}╔$u\u$g$PROMPT_AT$h\h$g:$w$dir$B\n${g}╚$p$P$x "
+	double="${g}╔$u\u$g$PROMPT_AT$h\h$g:$w$dir\n${g}║$B\n${g}╚$p$P$x "
+
+	if ((${#countme} > PROMPT_MAX)); then
+		PS1="$double"
+	elif ((${#countme} > PROMPT_LONG)); then
+		PS1="$long"
+	else
+		PS1="$short"
+	fi
+
+	if _have tmux && [[ -n "$TMUX" ]]; then
+		tmux rename-window "$(wd)"
+	fi
+}
+
+wd() {
+	dir="${PWD##*/}"
+	parent="${PWD%"/${dir}"}"
+	parent="${parent##*/}"
+	echo "$parent/$dir"
+} && export wd
+
+PROMPT_COMMAND="__ps1"
+
 # ------------------------------ aliases -----------------------------
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
+#      (use exec scripts instead, which work from vim and subprocs)
+
+unalias -a
 alias ip='ip -c'
 alias '?'=duck
-alias '??'=$SCRIPTS/google
-alias '???'=bing
-alias tt=$SCRIPTS/termux-tmux
-alias dot='cd $DOTFILES'
-alias scripts='cd $SCRIPTS'
-alias snippets='cd $SNIPPETS'
+alias '??'=google
 alias ls='ls -h --color=auto'
 alias free='free -h'
 alias tree='tree -a'
 alias df='df -h'
-alias chmox='chmod +x'
+alias neo="neo -D -c gold"
 alias diff='diff --color'
-alias temp='cd $(mktemp -d)'
+alias grep='grep --color=auto'
 alias view='vi -R' # which is usually linked to vim
 alias clear='printf "\e[H\e[2J"'
 alias c='printf "\e[H\e[2J"'
-alias coin="clip '(yes|no)'"
-alias gpati='GITHUB_PAT=<key> npm install'
-alias zet=$SCRIPTS/zet
-alias npm_update='npx npm-check-updates -u'
-alias vim='vim'
-alias vi='vim'
-alias '..'='cd ..'
+alias env='env -u LESS_TERMCAP_mb -u LESS_TERMCAP_md -u LESS_TERMCAP_me -u LESS_TERMCAP_so -u LESS_TERMCAP_se -u LESS_TERMCAP_us -u LESS_TERMCAP_ue'
+alias neo="neo -D -c gold"
+alias more="less -R"
+alias gitl="git log -n 5 --graph --decorate --oneline"
 
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
+set-editor() {
+	export EDITOR="$1"
+	export VISUAL="$1"
+	export GH_EDITOR="$1"
+	export GIT_EDITOR="$1"
+	alias vi="\$EDITOR"
+}
+_have "vim" && set-editor vi
+_have "nvim" && set-editor nvim
 
-# ------------------------------ auto-complete -----------------------
-#source /etc/profile.d/bash_completion.sh
-bind 'set show-all-if-ambiguous on'
-bind 'TAB:menu-complete'
+# ------------- source external dependencies / completion ------------
 
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
-fi
-
-# ----------------------------- lynx ---------------------------------
-export LYNX_CFG=$HOME/.config/lynx/lynx.cfg
-export LYNX_LSS=$HOME/.config/lynx/lynx.lss
-
-# ----------------------------- golang -------------------------------
-if [[ $(uname -r) =~ android ]]; then
-    export GOROOT=/data/data/com.termux/files/usr/lib/go
-    export GOPATH=$HOME/go
-    common_path="/usr/bin/tmux:/usr/bin/screen"
-    export PATH=$GOPATH/bin:$GOROOT/bin:$PATH:$common_path
-    export PATH=$PATH:/data/data/com.termux/files/usr/bin/go
-else
-    export GOROOT=/usr/local/go # Comment out if go is dnf/apt installed
-    export GOPATH=$HOME/go
-    common_path="/usr/bin/tmux:/usr/bin/screen"
-    export PATH=$GOPATH/bin:$GOROOT/bin:$PATH:$common_path # Comment out if go is dnf/apt installed
-    # export PATH=$GOPATH/bin:$PATH:$common_path # Uncomment if GOROOT does not exist
-fi
-
-# ----------------------------- plan9 --------------------------------
-# export PLAN9=~/plan9port
-export PLAN9=/usr/local/plan9
-export PATH=$PATH:$PLAN9/bin
-
-# ----------------------------- node ---------------------------------
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/var/home/aron/Repos/aaron-bcw/google-cloud-sdk/path.bash.inc' ]; then . '/var/home/aron/Repos/aaron-bcw/google-cloud-sdk/path.bash.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/var/home/aron/Repos/aaron-bcw/google-cloud-sdk/completion.bash.inc' ]; then . '/var/home/aron/Repos/aaron-bcw/google-cloud-sdk/completion.bash.inc'; fi
-
-export PATH=$PATH:/home/aron/.local/bin
-
-. "/home/aron/.deno/env"
-. "$HOME/.cargo/env"
+_have gh && . <(gh completion -s bash)
+_have pandoc && . <(pandoc --bash-completion)
+_have yq && . <(yq completion bash)

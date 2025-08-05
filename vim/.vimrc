@@ -1,203 +1,385 @@
+" designed for vim 8+
+
+if has("eval")                               " vim-tiny lacks 'eval'
+  let skip_defaults_vim = 1
+endif
+
 set nocompatible
-filetype off
-set number
-set ts=2
-set et
-set encoding=utf-8
-set incsearch
-" Native File Searching
-set path+=**
-set wildmenu
-set wildignore+=*/node_modules/* 
 
-set backupdir=.backup/,~/.backup/,/tmp//
-set directory=.swp/,~/.swp/,/tmp//
-set undodir=.undo/,~/.undo/,/tmp//
+"#################### Vi Compatible (~/.exrc) #######################
+"
 
-set omnifunc=syntaxcomplete#Complete
+" automatically indent new lines
+set autoindent " (alpine)
 
-let g:vim_markdown_folding_disabled=1
-let g:netrw_keepdir=0
+"set noflash " (alpine-ish only)
 
-let mapleader = ";"
+" replace tabs with spaces automatically
+set expandtab " (alpine)
 
-" close all other buffers
-map <leader>o :execute "%bd\|e#"<CR>
+" number of spaces to replace a tab with when expandtab
+set tabstop=2 " (alpine)
 
-" switch tabs -> :tab sball
-nnoremap H gT
-nnoremap L gt
+" use case when searching
+set noignorecase
 
-" to find files
-nnoremap <silent> <Leader>g :GFiles<CR>
-set autochdir
-"au BufRead,BufNewFile *.pp set filetype=ruby
-"au BufReadPost *.hbs set syntax=html
+" automatically write files when changing when multiple files open
+set autowrite
+
+" deactivate line numbers
+set nonumber
+
+" turn col and row position on in bottom right
+set ruler " see ruf for formatting
+
+" show command and insert mode
+set showmode
+
+"###################################################################
+
+" disable bell (also disable in .inputrc)
+set noerrorbells
+set visualbell
+set vb t_vb=
+
+let mapleader=","
+
+set softtabstop=2
+
+" mostly used with >> and <<
 set shiftwidth=2
 
-call plug#begin('~/.vim/plugged')
-Plug 'derekwyatt/vim-scala'
-Plug 'pangloss/vim-javascript'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'leafgarland/typescript-vim'
-Plug 'noprompt/vim-yardoc'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'junegunn/fzf.vim'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'tpope/vim-fugitive'
-Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-Plug 'vim-pandoc/vim-pandoc'
-Plug 'rwxrob/vim-pandoc-syntax-simple'
-Plug 'conradirwin/vim-bracketed-paste'
-call plug#end()
+set smartindent
 
-" filetype plugin indent on
+set smarttab
 
-command! -nargs=* -bar -bang -count=0 -complete=dir E Explore <args>
-syntax on
-if has('unix')
-  set t_Co=256
-end
-" syntax enable
-" set t_Co=256
-" set background=light
-" set termguicolors
-" colorscheme brutalist
+if v:version >= 800
+  " stop vim from silently messing with files that it shouldn't
+  set nofixendofline
 
-" custom ruby colors
-hi link yardGenericTag rubyComment
-hi link yardParamName rubyComment
-hi link yardType rubySymbol
+  " better ascii friendly listchars
+  set listchars=space:*,trail:*,nbsp:*,extends:>,precedes:<,tab:\|>
 
-" coc
-let g:coc_global_extensions = ['coc-tsserver', 'coc-eslint']
+  " i hate automatic folding
+  set foldmethod=manual
+  set nofoldenable
+ "set foldenable
+  "set foldmethod=syntax
+  "set foldlevelstart=99  " Open all folds by default
+endif
 
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-"inoremap <silent><expr> <TAB>
-"      \ pumvisible() ? "\<C-n>" :
-"      \ <SID>check_back_space() ? "\<TAB>" :
-"      \ coc#refresh()
-"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" mark trailing spaces as errors (break Makefiles, etc.)
+match Visual '\s\+$'
 
-"function! s:check_back_space() abort
-"  let col = col('.') - 1
-"  return !col || getline('.')[col - 1]  =~# '\s'
-"endfunction
+" enough for line numbers + gutter within 80 standard
+set textwidth=72
+"set colorcolumn=73
 
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+" disable relative line numbers, remove no to sample it
+set norelativenumber
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
-endfunction
+" disable spellcapcheck
+set spc=
 
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
+" more risky, but cleaner
+set nobackup
+set noswapfile
+set nowritebackup
 
-" Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+set icon
 
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+" highlight search hits
+set hlsearch
+set incsearch
+set linebreak
 
-" Applying codeAction to the selected region.
-" Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+" avoid most of the 'Hit Enter ...' messages
+set shortmess=aoOtTI
 
-" Remap keys for applying codeAction to the current buffer.
-nmap <leader>ac  <Plug>(coc-codeaction)
+" prevents truncated yanks, deletes, etc.
+set viminfo='20,<1000,s1000
 
-" Apply AutoFix to problem on the current line.
-nmap <leader>qf  <Plug>(coc-fix-current)
+" not a fan of bracket matching or folding
+if has("eval") " vim-tiny detection
+  let g:loaded_matchparen=1
+endif
+set noshowmatch
 
-" Mappings for CoCList
-" Show all diagnostics.
-nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+" wrap around when searching
+set wrapscan
+set nowrap
 
-let g:coc_user_config = {
-  \   "coc.preferences.jumpCommand": "tab drop",
-  \ }
+" Just the formatoptions defaults, these are changed per filetype by
+" plugins. Most of the utility of all of this has been superceded by the
+" use of modern simplified pandoc for capturing knowledge source instead
+" of arbitrary raw text files.
 
+set fo-=t   " don't auto-wrap text using text width
+set fo+=c   " autowrap comments using textwidth with leader
+set fo-=r   " don't auto-insert comment leader on enter in insert
+set fo-=o   " don't auto-insert comment leader on o/O in normal
+set fo+=q   " allow formatting of comments with gq
+set fo-=w   " don't use trailing whitespace for paragraphs
+set fo-=a   " disable auto-formatting of paragraph changes
+set fo-=n   " don't recognized numbered lists
+set fo+=j   " delete comment prefix when joining
+set fo-=2   " don't use the indent of second paragraph line
+set fo-=v   " don't use broken 'vi-compatible auto-wrapping'
+set fo-=b   " don't use broken 'vi-compatible auto-wrapping'
+set fo+=l   " long lines not broken in insert mode
+set fo+=m   " multi-byte character line break support
+set fo+=M   " don't add space before or after multi-byte char
+set fo-=B   " don't add space between two multi-byte chars
+set fo+=1   " don't break a line after a one-letter word
 
-" PLUGIN: FZF
-let g:fzf_preview_window = ['right,50%', 'ctrl-/']
-let g:fzf_layout = { 'down':  '40%'}
-nnoremap <silent> <Leader>b :Buffers<CR>
-nnoremap <silent> <C-f> :Files<CR>
-nnoremap <silent> <Leader>f :Rg<CR>
-nnoremap <silent> <Leader>/ :BLines<CR>
-nnoremap <silent> <Leader>' :Marks<CR>
-nnoremap <silent> <Leader>g :GFiles<CR>
-nnoremap <silent> <Leader>G :GFiles?<CR>
-nnoremap <silent> <Leader>c :Commits<CR>
-nnoremap <silent> <Leader>H :Helptags<CR>
-nnoremap <silent> <Leader>hh :History<CR>
-nnoremap <silent> <Leader>h: :History:<CR>
-nnoremap <silent> <Leader>h/ :History/<CR>
+" stop complaints about switching buffer with changes
+set hidden
 
-" Homebake Solution
-" `vim .` -> in to directory 
-" `:Vex` -> to view repo and search
-" `:find *payment*<TAB>` -> to find files
-" `:b <space> <TAB>` -> to find buffers
-" `:bd` -> to delete buffer
+" command history
+set history=100
 
-" find strings
-" Ag: Start ag in the specified directory e.g. :Ag ~/foo
-function! s:ag_in(bang, ...)
-    if !isdirectory(a:1)
-        throw 'not a valid directory: ' .. a:1
+" here because plugins and stuff need it
+if has("syntax")
+  syntax enable
+endif
+
+" faster scrolling
+set ttyfast
+
+" allow sensing the filetype
+filetype plugin on
+
+" high contrast for streaming, etc.
+"set background=dark
+
+set cinoptions+=:0
+
+" just one status line instead of two
+set laststatus=0 " for none
+
+" Edit/Reload vimrc configuration file
+nnoremap confe :e $HOME/.vimrc<CR>
+nnoremap confr :source $HOME/.vimrc<CR>
+nnoremap coming i_In development..._<Esc>
+
+set ruf=%30(%=%#LineNr#%.50F\ [%{strlen(&ft)?&ft:'none'}]\ %l:%c\ %p%%%)
+
+" only load plugins if Plug detected
+if filereadable(expand("~/.vim/autoload/plug.vim"))
+
+  " github.com/junegunn/vim-plug
+  " There can only be one plug#begin block so all this
+  " has to be here instead of split into init.lua as well.
+ 
+  call plug#begin('~/.local/share/vim/plugins')
+    Plug 'conradirwin/vim-bracketed-paste'
+    Plug 'fatih/vim-go' " GoInstallBinaries separately
+    Plug 'vim-pandoc/vim-pandoc'
+		Plug 'sainnhe/gruvbox-material'
+		Plug 'plan9-for-vimspace/acme-colors'
+    Plug 'hashivim/vim-terraform'
+    Plug 'habamax/vim-asciidoctor'
+    "Plug 'kana/vim-textobj-user'
+    Plug 'mjakl/vim-asciidoc'
+    Plug 'dense-analysis/ale'
+    if has('nvim-0.8')
+      Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+      Plug 'neoclide/coc.nvim', {'branch': 'release'}
+      if exists('$NVIM_SCREENKEY')
+        Plug 'NStefan002/screenkey.nvim'
+      endif
     endif
-    " Press `?' to enable preview window.
-    call fzf#vim#ag(join(a:000[1:], ' '),
-                \ fzf#vim#with_preview({'dir': a:1}, 'right:50%', '?'), a:bang)
-endfunction
+    if has('nvim')
+      Plug 'xolox/vim-misc'
+      Plug 'xolox/vim-lua-ftplugin'
+    else
+      Plug 'dahu/vim-asciidoc'
+    endif
+  call plug#end()
 
-" Ag call a modified version of Ag where first arg is directory to search
-command! -bang -nargs=+ -complete=dir Ag call s:ag_in(<bang>0, <f-args>)
+  let g:vim_asciidoc_initial_foldlevel=1
 
-" Statuslne setup
-set laststatus=2
-function! GitBranch()
-    return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
-  endfunction
+  set signcolumn=yes
+  let g:ale_set_signs = 1
+  let g:ale_sign_info = '✨'
+  let g:ale_sign_error = '🔥'
+  let g:ale_sign_warning = '❗️'
+  let g:ale_sign_hint = '💡'
 
-function! StatuslineGit()
-    let l:branchname = GitBranch()
-    return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
-endfunction
+  " perl stuff needs cpan install (brew also works):
+  "   Perl::Tidy
+  "   Perl::Critic
 
-set statusline=
-set statusline+=%#PmenuSel#
-set statusline+=%{StatuslineGit()}
-set statusline+=%#LineNr#
-set statusline+=\ %f
-set statusline+=%m\
-set statusline+=%=
-set statusline+=%#CursorColumn#
-set statusline+=\ %y
-set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
-set statusline+=\[%{&fileformat}\]
-set statusline+=\ %p%%
-set statusline+=\ %l:%c
-set statusline+=\ 
+  let g:ale_linters = {
+        \'go': ['gometalinter','gofmt','gobuild'],
+        \'perl': ['perl','perlcritic'],
+        \}
+  let g:ale_linter_aliases = {'bash': 'sh'}
+  let g:ale_perl_perlcritic_options = '--severity 3'
 
-" file explorer
-let g:netrw_banner=0        " disable nasty banner
-" let g:netrw_browse_split=4  " open in prior window
-" let g:netrw_alt=1           " open splits to the right
-let g:netrw_liststyle=3     " tree view
+  let g:ale_fixers = {
+        \'sh': ['shfmt'],
+        \'bash': ['shfmt'],
+        \'perl': ['perltidy'],
+        \}
+  let g:ale_fix_on_save = 1
+  let g:ale_perl_perltidy_options = '-b'
+
+  " pandoc
+  let g:pandoc#formatting#mode = 'h' " A'
+  let g:pandoc#formatting#textwidth = 72
+
+  " golang
+  let g:go_fmt_fail_silently = 0
+  "let g:go_fmt_options = '-s'
+  let g:go_fmt_command = 'goimports'
+  let g:go_fmt_autosave = 1
+  let g:go_gopls_enabled = 1
+  let g:go_highlight_types = 1
+  let g:go_highlight_fields = 1
+  let g:go_highlight_functions = 1
+  let g:go_highlight_function_calls = 1
+  let g:go_highlight_operators = 1
+  let g:go_highlight_extra_types = 1
+  let g:go_highlight_variable_declarations = 1
+  let g:go_highlight_variable_assignments = 1
+  let g:go_highlight_build_constraints = 1
+  let g:go_highlight_diagnostic_errors = 1
+  let g:go_highlight_diagnostic_warnings = 1
+  let g:go_code_completion_enabled = 1
+  let g:go_auto_sameids = 0
+  set updatetime=100
+
+  " common go macros
+  au FileType go nmap <leader>m ilog.Print("made")<CR><ESC>
+  au FileType go nmap <leader>n iif err != nil {return err}<CR><ESC>
+
+	set t_Co=256
+	syntax on
+	
+	colorscheme gruvbox-material
+	let g:current_colorscheme = 'gruvbox-material'
+
+	function! ToggleColorscheme()
+		if g:current_colorscheme ==# 'gruvbox-material'
+			set background=light
+			set signcolumn=no
+			colorscheme acme
+			let g:current_colorscheme = 'acme'
+		else
+			set background=dark
+			colorscheme gruvbox-material
+			let g:current_colorscheme = 'gruvbox-material'
+		endif
+	endfunction
+
+	nnoremap <leader>tc :call ToggleColorscheme()<CR>
+else
+  autocmd vimleavepre *.go !gofmt -w % " backup if fatih fails
+endif
+
+
+" force loclist to always close when buffer does (affects vim-go, etc.)
+augroup CloseLoclistWindowGroup
+  autocmd!
+  autocmd QuitPre * if empty(&buftype) | lclose | endif
+augroup END
+
+" make Y consistent with D and C (yank til end)
+map Y y$
+
+" better command-line completion
+set wildmenu
+
+" better cursor movement
+"set virtualedit=all
+set wrap
+
+" disable search highlighting with <C-L> when refreshing screen
+nnoremap <C-L> :nohl<CR><C-L>
+
+" enable omni-completion
+set omnifunc=syntaxcomplete#Complete
+imap <tab><tab> <c-x><c-o>
+
+" force some files to be specific file type
+au bufnewfile,bufRead .goreleaser set ft=yaml
+au bufnewfile,bufRead *.tf,*.tfvars set ft=terraform
+au bufnewfile,bufRead *.props set ft=jproperties
+au bufnewfile,bufRead *.ddl set ft=sql
+au bufnewfile,bufRead *.sh* set ft=sh
+au bufnewfile,bufRead *.{peg,pegn} set ft=config
+au bufnewfile,bufRead *.gotmpl set ft=go
+au bufnewfile,bufRead *.profile set filetype=sh
+au bufnewfile,bufRead *.crontab set filetype=crontab
+au bufnewfile,bufRead *ssh/config set filetype=sshconfig
+au bufnewfile,bufRead .dockerignore set filetype=gitignore
+au bufnewfile,bufRead .bashrc,.bash_profile set filetype=bash
+au bufnewfile,bufRead *gitconfig set filetype=gitconfig
+au bufnewfile,bufRead /tmp/psql.edit.* set syntax=sql
+au bufnewfile,bufRead *.go set spell spellcapcheck=0
+au bufnewfile,bufRead commands.yaml set spell
+au bufnewfile,bufRead *.{txt,md,adoc} set spell
+
+"fix bork bash detection
+if has("eval")  " vim-tiny detection
+fun! s:DetectBash()
+    if getline(1) == '#!/usr/bin/bash' 
+          \ || getline(1) == '#!/bin/bash'
+          \ || getline(1) == '#!/usr/bin/env bash'
+        set ft=bash
+        set shiftwidth=2
+    endif
+endfun
+autocmd BufNewFile,BufRead * call s:DetectBash()
+endif
+
+" displays all the syntax rules for current position, useful
+" when writing vimscript syntax plugins
+if has("syntax")
+function! <SID>SynStack()
+  if !exists("*synstack")
+    return
+  endif
+    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+endif
+
+" start at last place you were editing
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+" functions keys
+map <F1> :set number!<CR> :set relativenumber!<CR>
+nmap <F2> :call <SID>SynStack()<CR>
+set pastetoggle=<F3>
+map <F4> :set list!<CR>
+map <F5> :set cursorline!<CR>
+map <F7> :set spell!<CR>
+map <F12> :set fdm=indent<CR>
+
+nmap <leader>2 :set paste<CR>i
+
+" disable arrow keys (vi muscle memory)
+" noremap <up> :echoerr "Umm, use k instead"<CR>
+" noremap <down> :echoerr "Umm, use j instead"<CR>
+" noremap <left> :echoerr "Umm, use h instead"<CR>
+" noremap <right> :echoerr "Umm, use l instead"<CR>
+" inoremap <up> <NOP>
+" inoremap <down> <NOP>
+" inoremap <left> <NOP>
+" inoremap <right> <NOP>
+
+" better page down and page up
+noremap <C-n> <C-d>
+noremap <C-p> <C-b>
+
+" set TMUX window name to name of file
+if exists('$TMUX')
+    autocmd BufEnter * call system('tmux rename-window ' . expand('%:p:h:t') . '/' . expand('%:t'))
+endif
+
+" read personal/private vim configuration (keep last to override)
+set rtp^=~/.vimpersonal
+set rtp^=~/.vimprivate
+set rtp^=~/.vimwork
 
