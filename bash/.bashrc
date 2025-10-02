@@ -237,6 +237,10 @@ alias env='env -u LESS_TERMCAP_mb -u LESS_TERMCAP_md -u LESS_TERMCAP_me -u LESS_
 alias neo="neo -D -c gold"
 alias more="less -R"
 alias gitl="git log -n 5 --graph --decorate --oneline"
+alias ollama-on='sudo systemctl start ollama.service'
+alias ollama-off='sudo systemctl stop ollama.service'
+alias ollama-status='systemctl status ollama.service'
+
 
 set-editor() {
 	export EDITOR="$1"

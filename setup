@@ -1,7 +1,7 @@
 #!/bin/bash
 
-dotfiles_path="/home/me/Repos/github.com/amadv/dot"
-home_path="/home/me"
+dotfiles_path="/home/aaron/Repos/github.com/amadv/dot"
+home_path="/home/aaron"
 
 # List of dot files and their corresponding destination paths
 files=(
