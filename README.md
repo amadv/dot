@@ -2,25 +2,23 @@
 Relevant files for having a comfy home in a containerized world.
 
 ## Core Tools
-* Vim - not neovim keep it fucking simple (ts, go WIP)
-* tmux -  (simple layout, copy/paste, etc)
-* gitconfig - git aliases 
-* lynx - best fucking browser
-* bash - a real mans shell thats more practical than ksh
-* scripts - (zet, lynx(??))
+- Vim (not neovim) - keep it simple; TS and Go WIP
+- tmux - simple layout, copy/paste
+- bash - practical shell
+- gitconfig - git aliases
+- lynx - best browser
+- scripts - misc(dangerous)
 
-TODO:
-* add note app (nop)[https://github.com/amadv/nop]
-* finish setup scripts
-* add podman
-* add distrobox
+## TODO
+- [ ] add note app [nop](https://github.com/amadv/nop)
+- [ ] finish setup scripts
+- [ ] add podman
+- [ ] add distrobox
 
-Directory structure for coding
-
+## Directory Structure
 ```
 ~/Repos
   - <domain>.com
-    - <personal github name dir>
-      - <dot dir>
-    - <work github name dir>
+    - <github-user>/
+      - <repo>/
 ```
