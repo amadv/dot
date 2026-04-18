@@ -6,6 +6,7 @@ if [ -f /etc/bashrc ]; then
 fi
 
 export EDITOR=vim
+export VISUAL=vim
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.cask/bin"
 export PATH="$PATH:$HOME/node_modules/.bin"
@@ -14,6 +15,8 @@ export GOBIN="~/.local/bin"
 
 alias dot="cd $HOME/Repos/github.com/amadv/dot"
 alias repos="cd $HOME/Repos/github.com/amadv"
+alias aj="cd $HOME/Repos/github.com/amadv/aj-private && claude"
+alias blog="cd $HOME/Repos/github.com/amadv/amadv.github.io && claude"
 alias undo="git reset --soft HEAD~1"
 alias youtube-mp3="youtube-dl --extract-audio --audio-format mp3"
 
@@ -59,3 +62,4 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
